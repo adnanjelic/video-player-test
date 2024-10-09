@@ -7,6 +7,17 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.javaFX)
+}
+
+val javafxVersion = "22.0.1"
+val javafxPlatform = "win"
+
+javafx {
+    version = "22.0.1"
+//    modules = listOf("javafx.graphics", "javafx.media", "javafx.web")
+    modules = listOf("javafx.base", "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.media", "javafx.swing", "javafx.web")
+//    modules("javafx.base", "javafx.web","javafx.embed", "javafx.scene","javafx.concurrent", "javafx.application","javafx.controls", "javafx.fxml", "javafx.media")
 }
 
 kotlin {
@@ -16,9 +27,9 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     jvm("desktop")
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -29,10 +40,10 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -51,6 +62,16 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+
+            implementation("org.openjfx:javafx-swing:${javafxVersion}:${javafxPlatform}")
+            implementation("org.openjfx:javafx-base:${javafxVersion}:${javafxPlatform}")
+            implementation("org.openjfx:javafx-controls:${javafxVersion}:${javafxPlatform}")
+            implementation("org.openjfx:javafx-fxml:${javafxVersion}:${javafxPlatform}")
+
+            // We actually need only the 3 below
+            implementation("org.openjfx:javafx-graphics:${javafxVersion}:${javafxPlatform}")
+            implementation("org.openjfx:javafx-media:${javafxVersion}:${javafxPlatform}")
+            implementation("org.openjfx:javafx-web:${javafxVersion}:${javafxPlatform}")
         }
     }
 }
